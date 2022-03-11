@@ -156,27 +156,36 @@ def month_clz_pie(year, month, cla, data, save_path):
     pie.render(str(save_path / f'bar-{year}.{month}{cla}消费统计.html'))
 
 
-if __name__ == '__main__':
-    year = 2022
-    month = 2
-    save_path = './imgs'
-    excel_files = [
-        './2022寒假开学2022-02-21.xlsx',
-        './2022寒假账单2022-02-18.xlsx',
-        './2022年2月2022-02-23.xlsx'
-    ]
+def get_data(excel_files):
+    data_list = []
 
-    save_path = Path(save_path)
-    save_path.mkdir(exist_ok=True)
-
-    data_list = list(map(pd.read_excel, excel_files))
+    for file in excel_files:
+        dd = pd.read_excel(file, sheet_name=None)
+        if isinstance(dd, dict):
+            data_list.extend(dd.values())
+        if isinstance(dd, pd.DataFrame):
+            data_list.append(dd)
 
     data_list = [clean_data(excel_data[['日期', '类型', '标签', '金额', '说明']])
                  for excel_data in data_list]
     data = pd.concat(data_list)
 
+    return data
+
+
+if __name__ == '__main__':
+    year = 2022
+    month = 3
+    save_path = '../imgs'
+    excel_files = ['../bills.xlsx']
+
+    save_path = Path(save_path)
+    save_path.mkdir(exist_ok=True)
+
+    data = get_data(excel_files)
+
     pie_month(year, month, data, save_path)
     bar_month(year, month, data, save_path)
-    day_pie(2022, 2, 28, data, save_path)
-    day_cls_pie(2022, 2, 28,  "餐饮", data, save_path)
-    month_clz_pie(2022, 2, "餐饮", data, save_path)
+    day_pie(2022, 3, 8, data, save_path)
+    day_cls_pie(2022, 3, 8,  "穿搭", data, save_path)
+    month_clz_pie(2022, 3, "穿搭", data, save_path)

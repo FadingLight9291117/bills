@@ -1,6 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import api from './api'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Chart from './charts';
+import {
+  Input,
+  Button,
+  Spacer,
+} from '@nextui-org/react';
+
+
+const Component = () => {
+  return (
+    <div>
+      <Spacer y={1.6} />
+      <Input.Password labelPlaceholder="Password" initialValue="nextui123" />
+      <Spacer y={1.6} />
+      <Button>Click me</Button>
+    </div>
+  )
+};
 
 const Index = function () {
   return (
@@ -17,6 +36,7 @@ const Index = function () {
       >
         Learn React
       </a>
+      <Component />
     </header>
   )
 }
@@ -27,6 +47,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />}></Route>
+          <Route path="/chart" element={< Chart />}></Route>
         </Routes>
       </BrowserRouter>
     </div >
