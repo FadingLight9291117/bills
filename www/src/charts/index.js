@@ -1,12 +1,16 @@
 import './index.css'
-import { Component } from 'react';
 import MPie from './MPie';
+import MBar from './MBar';
+import { useParams } from 'react-router-dom';
+import { Spacer } from '@nextui-org/react';
 
-
-export default class Chart extends Component {
-    componentDidMount() {
-    }
-    render() {
-        return (<div className='chart'><MPie year={2022} month={3} /></div >)
-    }
+export default function Chart() {
+    const params = useParams();
+    return (
+        <div className='chart'>
+            <MPie year={params.year} month={params.month} />
+            <Spacer y={1.6} />
+            <MBar year={params.year} month={params.month} />
+        </div >
+    )
 }

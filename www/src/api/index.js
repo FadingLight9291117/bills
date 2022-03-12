@@ -11,7 +11,9 @@ class Api {
     }
 
     async getData(year, month) {
-        const response = await fetch(`http://${this.url}?year=${year}&month=${month}`)
+        const response = await fetch(`http://${this.url}?year=${year}&month=${month}`, {
+            mode: 'cors'
+        })
         return response.json()
     }
 }

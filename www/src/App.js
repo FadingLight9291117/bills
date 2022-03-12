@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import api from './api'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, } from 'react-router-dom';
 import Chart from './charts';
 import {
   Input,
@@ -46,8 +45,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />}></Route>
-          <Route path="/chart" element={< Chart />}></Route>
+          {/* <Route path="/" element={<Index />}></Route> */}
+          <Route path="/:year/:month" element={<Chart />}></Route>
         </Routes>
       </BrowserRouter>
     </div >

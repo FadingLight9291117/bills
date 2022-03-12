@@ -39,12 +39,19 @@ const billsFilter = (data, year, month) => data.filter(item => {
     return _year == year && _month == month;
 });
 
-const billsData = getData(dataPath);
+
+app.use((req, res, next) => {
+    res.set({
+        'Access-Control-Allow-Origin': req.headers.origin || '*',
+    })
+    next()
+})
 
 app.get('/', (req, res) => {
     const year = req.query.year;
     const month = req.query.month;
     console.log(`Query data of  ${year}-${month}.`);
+    const billsData = getData(dataPath);
     res.json(billsFilter(billsData, year, month));
 })
 
