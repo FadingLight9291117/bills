@@ -47,6 +47,8 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<Index />}></Route> */}
           <Route path="/:year/:month" element={<Chart />}></Route>
+          <Route path="/:year/" element={<Chart />}></Route>
+          <Route path="/" element={<Chart />}></Route>
         </Routes>
       </BrowserRouter>
     </div >
