@@ -68,7 +68,7 @@ class MPie extends Component {
                     },
                     label: {
                         show: true,
-                        position: "top",
+                        // position: "top",
                         margin: 8,
                         formatter: "{b}: {c}"
                     },
