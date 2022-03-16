@@ -1,6 +1,5 @@
 import * as echarts from "echarts"
 import { Component } from 'react';
-import api from '../api';
 
 class MPie extends Component {
     async componentDidMount() {
@@ -8,10 +7,10 @@ class MPie extends Component {
             width: this.props.width ? this.props.width : 600,
             height: this.props.height ? this.props.height : 300,
         });
+
         const year = this.props.year;
         const month = this.props.month;
-        const data = await api.getData(year, month)
-
+        const data = this.props.data;
 
         // 统计
         const data_map = new Map()
@@ -82,6 +81,10 @@ class MPie extends Component {
             ]
         };
         chat.setOption(option);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.componentDidMount()
     }
 
     render() {

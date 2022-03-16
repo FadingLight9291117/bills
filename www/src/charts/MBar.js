@@ -1,6 +1,5 @@
 import * as echarts from "echarts"
 import { Component } from 'react';
-import api from '../api';
 
 export default class MBar extends Component {
     async componentDidMount() {
@@ -10,7 +9,7 @@ export default class MBar extends Component {
         });
         const year = this.props.year;
         const month = this.props.month;
-        const data = await api.getData(year, month)
+        const data = this.props.data;
 
 
         // 统计
@@ -101,6 +100,10 @@ export default class MBar extends Component {
             }
         };
         chat.setOption(option);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.componentDidMount()
     }
 
     render() {

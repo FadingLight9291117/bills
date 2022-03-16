@@ -1,12 +1,12 @@
-const config = {
+export const config = {
     host: "localhost",
     port: 8080,
 }
 
-class Api {
+export class Api {
     constructor(config) {
-        this.host = config.host
-        this.port = config.port
+        this.host = config.host ? config.host : 'localhost';
+        this.port = config.port ? config.port : 8080;
         this.url = `${this.host}:${this.port}`
     }
 
@@ -17,7 +17,3 @@ class Api {
         return response.json()
     }
 }
-
-const api = new Api(config)
-
-export default api
