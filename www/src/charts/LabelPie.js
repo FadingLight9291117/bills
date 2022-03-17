@@ -1,9 +1,8 @@
 import * as echarts from "echarts"
 import { Component } from 'react';
 import React from "react"
-import LabelPie from "./LabelPie";
 
-class MPie extends Component {
+class LabelPie extends Component {
     async componentDidMount() {
         const chat = echarts.init(this.el, null, {
             width: this.props.width ? this.props.width : 600,
@@ -12,15 +11,17 @@ class MPie extends Component {
 
         const year = this.props.year;
         const month = this.props.month;
+        const cls = this.props.cls;
         const data = this.props.data;
+        data.filter(item => item['类型'].trim() === cls)
 
         // 统计
         const data_map = new Map()
         data.forEach((v, k) => {
-            const cls = v['类型'].trim()
+            const label = v['标签'].trim()
             const money = v['金额']
-            const clsMoney = data_map.get(cls) ? data_map.get(cls) + money : money
-            data_map.set(cls, clsMoney)
+            const clsMoney = data_map.get(label) ? data_map.get(label) + money : money
+            data_map.set(label, clsMoney)
         })
 
         const chartData = []
@@ -100,4 +101,4 @@ class MPie extends Component {
 
 }
 
-export default MPie;
+export default LabelPie;
