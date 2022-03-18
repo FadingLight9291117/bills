@@ -39,9 +39,8 @@ def statistic_label(data: pd.DataFrame):
 def format_float(d):
     return float(f'{d:.2f}')
 
+
 # 填充没有支出的日期
-
-
 def fill_money(data: Dict[datetime.date, float]):
     dates = list(data.keys())
     max_date = max(dates)
