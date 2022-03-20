@@ -17,8 +17,8 @@ class MPie extends Component {
         // 统计
         const data_map = new Map()
         data.forEach((v, k) => {
-            const cls = v['类型'].trim()
-            const money = v['金额']
+            const cls = v['cls'].trim()
+            const money = v['money']
             const clsMoney = data_map.get(cls) ? data_map.get(cls) + money : money
             data_map.set(cls, clsMoney)
         })

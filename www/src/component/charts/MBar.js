@@ -15,8 +15,8 @@ export default class MBar extends Component {
         // 统计
         const data_map = new Map()
         data.forEach((v, k) => {
-            const dayOfMonth = new Date(v['日期']).getDate()
-            const money = v['金额']
+            const dayOfMonth = new Date(v['date']).getDate()
+            const money = v['money']
             const dayMoney = data_map.get(dayOfMonth) ? data_map.get(dayOfMonth) + money : money
             data_map.set(dayOfMonth, dayMoney)
         })
@@ -41,7 +41,7 @@ export default class MBar extends Component {
                 return {
                     value: money,
                     itemStyle: {
-                        color: "#ff0000"
+                        color: "red"
                     }
                 }
             }
@@ -49,11 +49,16 @@ export default class MBar extends Component {
                 return {
                     value: money,
                     itemStyle: {
-                        color: "#ff8000"
+                        color: "orange"
                     }
                 }
             }
-            return money
+            return {
+                value:money,
+                itemStyle: {
+                    color: 'green'
+                }
+            }
 
         });
 

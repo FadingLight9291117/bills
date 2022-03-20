@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",
+    "mysql": "^2.18.1",
     "node-xlsx": "^0.21.0"
   },
   "scripts": {

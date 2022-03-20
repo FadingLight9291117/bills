@@ -2,6 +2,8 @@
 CREATE DATABASE IF NOT EXISTS bill;
 -- 建表
 USE bill;
+
+
 CREATE TABLE IF NOT EXISTS bills (
     id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE,
@@ -10,6 +12,10 @@ CREATE TABLE IF NOT EXISTS bills (
     money FLOAT,
     options TEXT DEFAULT ""
 );
+
+
+
+
 INSERT INTO bills (date, cls, label, money)
 VALUES ("2020/3/2", "餐饮", "早餐", 32.2)
 
