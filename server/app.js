@@ -1,20 +1,14 @@
 const express = require('express');
-const {getExcelData, billsFilter} = require('./data/excel');
-const {query} = require('./data/mysql')
+const cors = require('cors');
+const { query, insert, remove, queryOne } = require('./data/mysql')
+// const { getExcelData, billsFilter } = require('./data/excel');
+// const excelFilePath = '../bills.xlsx';
 
 const app = express();
 const port = 8080;
 
-
-const excelFilePath = '../bills.xlsx';
-
-
-app.use((req, res, next) => {
-    res.set({
-        'Access-Control-Allow-Origin': req.headers.origin || '*',
-    })
-    next()
-})
+app.use(cors()); // 解决跨域访问
+app.use(express.json()); // 添加，否则req.post为undefined
 
 app.get('/', (req, res) => {
     const year = req.query.year;
@@ -24,8 +18,22 @@ app.get('/', (req, res) => {
     // res.json(billsFilter(billsData, year, month));
     query(year, month, results => {
         res.json(results)
-    })
-})
+    });
+});
+
+app.post('/add', (req, res) => {
+    const data = req.body;
+    console.log(`insert ${data}`);
+    insert(data.date, data.money, data.cls, data.label, data.options, results => res.json(results));
+});
+
+app.delete('/remove', (req, res) => {
+    const id = req.query.id;
+    let billItem;
+    queryOne(id, results => billItem = results);
+    console.log(`remove ${billItem}`);
+    remove(id, results => res.json(results));
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}.`);

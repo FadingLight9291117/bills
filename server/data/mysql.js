@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
 const cfg = {
-    connectionLimit: 1,
+    connectionLimit: 5,
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -15,21 +15,61 @@ const pool = mysql.createPool(cfg);
 function query(year, month, callback) {
     year = parseInt(year);
     month = parseInt(month);
-    const res = [];
     const sql = mysql.format(
-        "select * from bills where date between '?-?-1' and '?-?-31'",
+        "SELECT * FROM bills WHERE date BETWEEN '?-?-1' AND '?-?-31'",
         [year, month, year, month]
+    );
+    pool.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        if (results) callback(results);
+    });
+}
+
+
+function queryOne(id) {
+    id = parseInt(id);
+    const sql = mysql.format(
+        "SELECT * FROM bills WHERE id = ?",
+        [id]
+    );
+    pool.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        if (results) callback(results);
+    });
+}
+
+
+
+function insert(date, money, cls, label, options, callback) {
+    money = parseFloat(money);
+    const sql = mysql.format(
+        "INSERT INTO bills (date, money, cls, label, options) VALUES (?,?,?,?,?)",
+        [date, money, cls, label, options]
+    );
+    pool.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        if (results) callback(results);
+    })
+}
+
+function remove(id, callback) {
+    id = parseInt(id);
+    const sql = mysql.format(
+        "DELETE FROM bills WHERE id=?",
+        [id]
     )
     pool.query(sql, (error, results, fields) => {
         if (error) throw error;
-        if (results) {
-            callback(results);
-        }
-    })
-    return res;
+        if (results) callback(results);
+    });
 }
 
-module.exports.query = query
+module.exports = {
+    query: query,
+    queryOne: query,
+    insert: insert,
+    remote: remove
+}
 
 
 
