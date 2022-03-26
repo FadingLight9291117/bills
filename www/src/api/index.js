@@ -1,5 +1,5 @@
 export const config = {
-    host: "aliyun",
+    host: "47.99.156.88",
     port: 8080,
 }
 
