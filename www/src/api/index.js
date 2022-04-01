@@ -29,6 +29,14 @@ export class Api {
         return response.json();
     }
 
+    async removeItemById(id) {
+        const response = await fetch(`${this.url}/remove?id=${id}`, {
+            method: 'DELETE',
+            mode: 'cors'
+        });
+        return response.json();
+    }
+
 }
 
 

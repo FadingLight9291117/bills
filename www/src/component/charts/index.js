@@ -11,6 +11,9 @@ import {
 import { Api, config } from '../../api';
 import React from 'react'
 
+/**
+ * TODO: 本月消费金额进度条
+ */
 export default class Chart extends React.Component {
     constructor(props) {
         super(props)
