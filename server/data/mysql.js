@@ -16,7 +16,7 @@ function query(year, month, callback) {
     year = parseInt(year);
     month = parseInt(month);
     const sql = mysql.format(
-        "SELECT * FROM bills WHERE date BETWEEN '?-?-1' AND '?-?-31'",
+        "SELECT * FROM bills WHERE date BETWEEN '?-?-1' AND '?-?-31' AND removed=0",
         [year, month, year, month]
     );
     pool.query(sql, (error, results, fields) => {
@@ -29,7 +29,7 @@ function query(year, month, callback) {
 function queryOne(id) {
     id = parseInt(id);
     const sql = mysql.format(
-        "SELECT * FROM bills WHERE id = ?",
+        "SELECT * FROM bills WHERE id=? AND removed=0",
         [id]
     );
     pool.query(sql, (error, results, fields) => {
@@ -55,7 +55,7 @@ function insert(date, money, cls, label, options, callback) {
 function remove(id, callback) {
     id = parseInt(id);
     const sql = mysql.format(
-        "DELETE FROM bills WHERE id=?",
+        "UPDATE bills SET removed=1 WHERE id=?",
         [id]
     )
     pool.query(sql, (error, results, fields) => {
@@ -66,7 +66,7 @@ function remove(id, callback) {
 
 module.exports = {
     query: query,
-    queryOne: query,
+    queryOne: queryOne,
     insert: insert,
     remote: remove
 }
