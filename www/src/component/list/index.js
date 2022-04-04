@@ -30,6 +30,8 @@ export default class List extends React.Component {
             this.state.year ? this.state.year : date.getFullYear(),
             this.state.month ? this.state.month : date.getMonth() + 1
         );
+        data.sort((x, y) => new Date(x.date) - new Date(y.date)).reverse();
+
         this.setState({
             rows: data
         });
