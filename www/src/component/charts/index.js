@@ -7,9 +7,17 @@ import {
     Input,
     Card,
     Text,
+    Progress,
+    Grid
 } from '@nextui-org/react';
 import { Api, config } from '../../api';
 import React from 'react'
+
+/**
+ * TODO: 本月消费金额进度条
+ */
+const MAX_MONEY = 1500;
+
 
 export default class Chart extends React.Component {
     constructor(props) {
@@ -62,20 +70,46 @@ export default class Chart extends React.Component {
             color = colors[2]
         }
         return (
-            <div className='chart'>
-                <Input label="year" placeholder={this.state.year} ref={el => this.yearIpt = el} />
-                <Input label='month' placeholder={this.state.month} ref={el => this.monthIpt = el} />
+            <div className='charts'>
+                <div className="search">
+                    <Input label="year" placeholder={this.state.year} ref={el => this.yearIpt = el} />
+                    <Input label='month' placeholder={this.state.month} ref={el => this.monthIpt = el} />
+                    <Spacer y={0.8} />
+                    <Button onClick={this.buttonClick}>查询</Button>
+                </div>
                 <Spacer y={0.8} />
-                <Button onClick={this.buttonClick}>查询</Button>
-                <Spacer y={0.8} />
-                <Card css={{ mw: '200px' }} color={color}>
-                    <Text color="white">-￥{totalMoney}</Text>
-                </Card>
-                <Spacer y={1.6} />
-                <MPie year={this.state.year} month={this.state.month} data={this.state.data} />
-                <Spacer y={1.6} />
-                <MBar year={this.state.year} month={this.state.month} data={this.state.data} />
-            </div >
+                <div className='progress' >
+                    <Grid.Container gap={2} justify="left">
+                        <Grid xs={6}>
+                            <Progress
+                                value={totalMoney / MAX_MONEY * 100}
+                                status="primary"
+                            />
+                        </Grid>
+                        <Grid xs={6}>
+                            <Progress
+                                value={totalMoney / MAX_MONEY * 100}
+                                status="primary"
+                            />
+                        </Grid>
+                        <Grid xs={3}>
+                            <Progress
+                                value={totalMoney / MAX_MONEY * 100}
+                                status="primary"
+                            />
+                        </Grid>
+                        {/* <Grid xs={3}>
+                            <Text>123</Text>
+                        </Grid> */}
+                    </Grid.Container>
+                </div>
+                <div className='chart'>
+                    <Spacer y={1.6} />
+                    <MPie year={this.state.year} month={this.state.month} data={this.state.data} />
+                    <Spacer y={1.6} />
+                    <MBar year={this.state.year} month={this.state.month} data={this.state.data} />
+                </div >
+            </div>
         )
     }
 }

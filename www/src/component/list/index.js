@@ -1,15 +1,16 @@
 import React from "react";
 import "./index.css"
-import { Table, Row, Col, Tooltip, User, Text, Divider } from '@nextui-org/react'
+import { Table, Row, Col, Tooltip, User, Text, Divider, Modal } from '@nextui-org/react'
 import { EyeIcon } from "./EyeIcon";
 import { DeleteIcon } from './DeleteIcon';
 import { EditIcon } from "./EditIcon";
 import { IconButton } from "./IconButton";
+import { Api, config } from '../../api';
 
 export default class List extends React.Component {
     constructor(props) {
         super(props)
-        this.data = props.data;
+        this.api = new Api(config)
         this.columns = [
             { key: "date", label: "日期" },
             { key: "money", label: "金额" },
@@ -17,51 +18,47 @@ export default class List extends React.Component {
             { key: "label", label: "标签" },
             { key: "actions", label: "ACTIONS" }
         ];
-        this.rows = [
-            {
-                id: 1,
-                date: new Date(),
-                money: 23,
-                cls: "餐饮",
-                label: "晚餐",
-                options: "None",
-            },
-            {
-                id: 2,
-                date: new Date(),
-                money: 23,
-                cls: "餐饮",
-                label: "晚餐",
-                options: "None",
-            },
-            {
-                id: 3,
-                date: new Date(),
-                money: 23,
-                cls: "餐饮",
-                label: "晚餐",
-                options: "None",
-            },
-            {
-                id: 4,
-                date: new Date(),
-                money: 23,
-                cls: "餐饮",
-                label: "晚餐",
-                options: "None",
-            },
-        ];
+        this.state = {
+            year: this.props.year,
+            month: this.props.month,
+            rows: [],
+        }
     }
-    componentDidMount() {
+    async componentDidMount() {
+        const date = new Date();
+        const data = await this.api.getData(
+            this.state.year ? this.state.year : date.getFullYear(),
+            this.state.month ? this.state.month : date.getMonth() + 1
+        );
+        data.sort((x, y) => new Date(x.date) - new Date(y.date)).reverse();
 
+        this.setState({
+            rows: data
+        });
     }
 
-    renderCell = (user, columnKey) => {
-        const cellValue = user[columnKey];
+    deleteItem = async (itemId) => {
+        /**
+         * 
+         * 1. 弹出框确认删除
+         * 2. 调用api删除
+         * 3. 从rows中移除该item
+         * 4. 提示已删除
+         */
+        // TODO: 1
+        //2 
+        await this.api.removeItemById(itemId);
+        // TODO: 2
+        // TODO: 3
+        // TODO: 4
+    }
+
+    renderCell = (item, columnKey) => {
+        const cellValue = item[columnKey];
         switch (columnKey) {
             case "date":
                 return (
-                    <div>{cellValue.toLocaleDateString()}</div>
+                    <div>{new Date(cellValue).toLocaleDateString()}</div>
                 );
             case "money":
                 return (
@@ -79,24 +76,24 @@ export default class List extends React.Component {
                 return (
                     <Row justify="center" align="center">
                         <Col css={{ d: "flex" }}>
-                            <Tooltip content="Details">
-                                <IconButton onClick={() => console.log("View user", user.id)}>
+                            <Tooltip content={item["options"]}>
+                                <IconButton onClick={() => console.log("View user", item.id)}>
                                     <EyeIcon size={20} fill="#979797" />
                                 </IconButton>
                             </Tooltip>
                         </Col>
                         <Col css={{ d: "flex" }}>
-                            <Tooltip content="Edit user">
-                                <IconButton onClick={() => console.log("Edit user", user.id)}>
+                            <Tooltip content="Edit item">
+                                <IconButton onClick={() => console.log("Edit item", item.id)}>
                                     <EditIcon size={20} fill="#979797" />
                                 </IconButton>
                             </Tooltip>
                         </Col>
                         <Col css={{ d: "flex" }}>
                             <Tooltip
-                                content="Delete user"
+                                content="Delete item"
                                 color="error"
-                                onClick={() => console.log("Delete user", user.id)}
+                                onClick={() => console.log("Delete item", item.id)}
                             >
                                 <IconButton>
                                     <DeleteIcon size={20} fill="#FF0080" />
@@ -133,7 +130,7 @@ export default class List extends React.Component {
                         </Table.Column>
                     )}
                 </Table.Header>
-                <Table.Body items={this.rows}>
+                <Table.Body items={this.state.rows}>
                     {(item) => (
                         <Table.Row key={item.id}>
                             {(columnKey) => <Table.Cell>{this.renderCell(item, columnKey)}</Table.Cell>}
