@@ -33,6 +33,9 @@ export default class Record extends React.Component {
             label: this.labelEl.value,
             options: this.optionsEl.value,
         }
+        if (data.money == 0) {
+            return
+        }
         this.api.postData(data).then(res => {
             alert('记录成功!');
             this.clear();
