@@ -26,10 +26,10 @@ function query(year, month, callback) {
 }
 
 
-function queryOne(id) {
+function queryOne(id, callback) {
     id = parseInt(id);
     const sql = mysql.format(
-        "SELECT * FROM bills WHERE id=? AND removed=0",
+        "SELECT * FROM bills WHERE id=?",
         [id]
     );
     pool.query(sql, (error, results, fields) => {
@@ -68,7 +68,7 @@ module.exports = {
     query: query,
     queryOne: queryOne,
     insert: insert,
-    remote: remove
+    remove: remove
 }
 
 
