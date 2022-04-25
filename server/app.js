@@ -11,8 +11,12 @@ app.use(cors()); // 解决跨域访问
 app.use(express.json()); // 添加，否则req.post为undefined
 
 app.get('/', (req, res) => {
-    const year = req.query.year;
-    const month = req.query.month;
+    let year = req.query.year;
+    let month = req.query.month;
+    const now = new Date();
+    year = year ? year : now.getFullYear();
+    month = month ? month : now.getMonth() + 1;
+
     console.log(`Query data of  ${year}-${month}.`);
     // const billsData = getExcelData(excelFilePath);
     // res.json(billsFilter(billsData, year, month));
@@ -29,9 +33,7 @@ app.post('/add', (req, res) => {
 
 app.delete('/remove', (req, res) => {
     const id = req.query.id;
-    let billItem;
-    queryOne(id, results => billItem = results);
-    console.log(`remove ${billItem}`);
+    queryOne(id, results => console.log(`remove ${JSON.stringify(results)}`));
     remove(id, results => res.json(results));
 });
 
