@@ -86,21 +86,9 @@ export default class Chart extends React.Component {
                                 status="primary"
                             />
                         </Grid>
-                        <Grid xs={6}>
-                            <Progress
-                                value={totalMoney / MAX_MONEY * 100}
-                                status="primary"
-                            />
-                        </Grid>
                         <Grid xs={3}>
-                            <Progress
-                                value={totalMoney / MAX_MONEY * 100}
-                                status="primary"
-                            />
-                        </Grid>
-                        {/* <Grid xs={3}>
                             <Text>123</Text>
-                        </Grid> */}
+                        </Grid>
                     </Grid.Container>
                 </div>
                 <div className='chart'>
