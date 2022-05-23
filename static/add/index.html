@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 
-    <title>添加账单</title>
-  </head>
-  <style>
-    .form {
-      width: 500px;
-      padding: 10px 20px;
-    }
-  </style>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 
-  <body>
-    <form class="form">
-      <div class="row form-group">
-        <div class="col-md-5">
-          <label for="date">日期</label>
-          <input type="date" class="form-control" id="date" value="" />
-        </div>
+  <title>添加账单</title>
+</head>
+<style>
+  .form {
+    width: 500px;
+    padding: 10px 20px;
+  }
+</style>
+
+<body>
+  <form name="form" class="form">
+    <div class="row form-group">
+      <div class="col-md-6">
+        <label for="date">日期</label>
+        <input type="date" class="form-control" id="date" value="" />
       </div>
+    </div>
 
-      <div class="form-group">
+    <div class="row form-group">
+      <div class="col-md-6">
         <label for="money">金额</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -39,37 +38,85 @@
           <input type="number" class="form-control" id="money" />
         </div>
       </div>
+    </div>
 
-      <div class="row form-group">
-        <div class="col-md-6">
-          <label for="cls">类别</label>
-          <select class="form-control" id="cls">
-            <option value=""></option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-          </select>
-        </div>
-
-        <div class="col-md-6">
-          <label for="label">标签</label>
-          <select class="form-control" id="label">
-            <option value=""></option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-          </select>
-        </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <label for="cls">类别</label>
+        <select class="form-control" id="cls">
+          <option value=""></option>
+        </select>
       </div>
 
-      <div class="form-group">
-        <label for="options">备注</label>
-        <textarea class="form-control" id="optinos" rows="2"></textarea>
+      <div class="col-md-6">
+        <label for="label">标签</label>
+        <select class="form-control" id="label">
+          <option value=""></option>
+        </select>
       </div>
-      <button class="btn btn-primary btn-lg btn-block" type="submit">提交</button>
-    </form>
-  </body>
-  <script>
-    // 设置日期默认值
-    let now = new Date();
-    const dateElem = document
-  </script>
+    </div>
+
+    <div class="form-group">
+      <label for="options">备注</label>
+      <textarea class="form-control" id="optinos" rows="2"></textarea>
+    </div>
+    <button id="submit" class="btn btn-primary btn-lg btn-block" type="submit">
+      提交
+    </button>
+  </form>
+</body>
+<script>
+  function getNowDate() {
+    const now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth() + 1;
+    let day = now.getDate();
+    return `${year}-${formatNumber(month)}-${formatNumber(day)}`;
+
+  }
+  function formatNumber(n) {
+    let nStr = n.toString();
+    return nStr.length == 1 ? "0" + n : n;
+  }
+
+  function getForDate() {
+    const formElem = document.getElementById("form");
+    const date = formElem.date.value;
+    const money = formElem.money.value;
+    const cls = formElem.cls.value;
+    const label = formElem.label.value;
+
+  }
+  let cls2Label = new Map();
+  async function getClsLabel() {
+    const clsLabel = await fetch("./cls.json");
+    const clsLabelData = await clsLabel.json();
+    for (let i in clsLabelData) {
+      // cls2Label[i] = clsLabelData[i]; // 这样添加元素会导致 `size` 不增加，即 `size=0`，进而导致无法遍历此 map 得到键值对。
+      cls2Label.set(i, clsLabelData[i]);
+    }
+  }
+
+  async function initForm() {
+    document.getElementById("date").value = getNowDate();
+    await getClsLabel();
+    const clsElem = document.getElementById("cls");
+    cls2Label.forEach((v, k) => { // v, k Map 的遍历 value 在前，key 在后
+      const optionELem = document.createElement("option");
+      optionELem.value = k;
+      optionELem.innerText = k;
+      clsElem.appendChild(optionELem);
+    })
+  }
+
+  async function postFormData(url, data) {
+  }
+</script>
+<script>
+  initForm();
+  // const formElem = document.getElementById("form");
+
+
+</script>
+
 </html>
