@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <title>添加账单</title>
+</head>
+<style>
+    .form {
+        width: 200px;
+        margin: 10px 10px;
+    }
+</style>
+
+<body>
+    <form class="form">
+        <div class="form-group">
+            <label for="date">日期</label>
+            <input type="date" class="form-control" id="date" />
+        </div>
+        <div class="form-group">
+            <label for="money">金额</label>
+            <div class="input-group">
+                <div class="input-group-addon">￥</div>
+                <input type="number" class="form-control" id="money" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cls">类别</label>
+            <input type="text" class="form-control" id="cls"/>
+        </div>
+        <div class="form-group">
+            <label for="label">标签</label>
+            <input type="text" class="form-control" id="label"/>
+        </div>
+        <div>
+        <div class="form-group">
+            <label for="options">备注</label>
+            <input type="textarea" class="form-control" id="optinos">
+        </div>
+            
+        </div>
+            
+    </form>
+
+</body>
+
+</html>

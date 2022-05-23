@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb
+    container_name: bill-mariadb
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=123456
+    volumes:
+      - /bill/mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+
+    ports:
+      - 8080:8080
