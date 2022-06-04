@@ -10,7 +10,7 @@ const port = 8080;
 app.use(cors()); // 解决跨域访问
 app.use(express.json()); // 添加，否则req.post为undefined
 
-app.get('/', (req, res) => {
+const listBill = (req, res) => {
     let year = req.query.year;
     let month = req.query.month;
     const now = new Date();
@@ -23,19 +23,21 @@ app.get('/', (req, res) => {
     query(year, month, results => {
         res.json(results)
     });
-});
-
-app.post('/add', (req, res) => {
+}
+const addBill = (req, res) => {
     const data = req.body;
     console.log(`insert ${data}`);
     insert(data.date, data.money, data.cls, data.label, data.options, results => res.json(results));
-});
-
-app.delete('/remove', (req, res) => {
+}
+const removeBill = (req, res) => {
     const id = req.query.id;
     queryOne(id, results => console.log(`remove ${JSON.stringify(results)}`));
     remove(id, results => res.json(results));
-});
+}
+
+app.get('/api/listBill', listBill);
+app.post('/api/addBill', addBill);
+app.delete('/api/remove', removeBill);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}.`);
