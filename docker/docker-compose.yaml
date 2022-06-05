@@ -7,7 +7,6 @@ services:
     restart: always
     ports:
       - 8080:8080
-
   db:
     container_name: bill-mariadb
     image: mariadb
@@ -18,7 +17,6 @@ services:
       - '/root/docker/volumes/mariadb:/var/lib/mysql'
     ports:
       - 3306:3306
-
   adminer:
     container_name: bill-mariadb-adminer
     image: adminer
