@@ -1,11 +1,11 @@
 export const config = {
-    host: "47.99.156.88",
+    host: "",
     port: 8080,
 }
 
 export class Api {
     constructor(config) {
-        this.host = config.host ? config.host : 'localhost';
+        this.host = config.host && config.host !== '' ? config.host : 'localhost';
         this.port = config.port ? config.port : 8080;
         this.url = `http://${this.host}:${this.port}/api`
     }

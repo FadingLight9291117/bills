@@ -54,3 +54,19 @@ headers: {
 ```
 
 时注意 `/api/` 和 `/api`的不同
+
+## 2022.06.05
+
+mysql 建表可以为字段添加注释 `comment`关键字
+
+```sql
+create table test(
+	id int not null default 0 comment '用户id'
+)
+```
+
+显示注释
+
+```sql
+show full columns from <table>
+```

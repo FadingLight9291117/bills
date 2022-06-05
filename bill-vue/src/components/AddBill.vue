@@ -79,7 +79,7 @@ function clear() {
 function submitForm() {
     if (billData.money != '' && billData.cls != '') {
         console.log(JSON.stringify(billData))
-        fetch("/api/add", {
+        fetch("/api/addBill", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
