@@ -7,18 +7,18 @@ export class Api {
     constructor(config) {
         this.host = config.host ? config.host : 'localhost';
         this.port = config.port ? config.port : 8080;
-        this.url = `http://${this.host}:${this.port}`
+        this.url = `http://${this.host}:${this.port}/api`
     }
 
     async getData(year, month) {
-        const response = await fetch(`${this.url}?year=${year}&month=${month}`, {
+        const response = await fetch(`${this.url}/listBill?year=${year}&month=${month}`, {
             mode: 'cors'
         })
         return response.json()
     }
 
     async postData(data) {
-        const response = await fetch(`${this.url}/add`, {
+        const response = await fetch(`${this.url}/addBill`, {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -30,7 +30,7 @@ export class Api {
     }
 
     async removeItemById(id) {
-        const response = await fetch(`${this.url}/remove?id=${id}`, {
+        const response = await fetch(`${this.url}/removeBill?id=${id}`, {
             method: 'DELETE',
             mode: 'cors'
         });

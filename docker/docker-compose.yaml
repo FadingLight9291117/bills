@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    container_name: bill-server
+    image: bill-server
+    restart: always
+    ports:
+      - 8080:8080
+
+  db:
+    container_name: bill-mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 123456
+    volumes:
+      - '/root/docker/volumes/mariadb:/var/lib/mysql'
+    ports:
+      - 3306:3306
+
+  adminer:
+    container_name: bill-mariadb-adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
